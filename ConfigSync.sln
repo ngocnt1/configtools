@@ -43,6 +43,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerScriptAgent", "PowerSc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CultureHelper", "CultureHelper\CultureHelper.csproj", "{234C8B66-69B2-4C0A-B8C3-3977EBAA7C0B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLUsefulScrips", "SQLUsefulScrips", "{F193163C-26FC-4593-A8B2-1C83132561D4}"
+	ProjectSection(SolutionItems) = preProject
+		..\DatabaseScripts\DbPageVersionStatics_DN.sql = ..\DatabaseScripts\DbPageVersionStatics_DN.sql
+		..\DatabaseScripts\DbSP_editDeleteAllObsoletePageVersions.sql = ..\DatabaseScripts\DbSP_editDeleteAllObsoletePageVersions.sql
+		..\DatabaseScripts\DbStatistics_DN.sql = ..\DatabaseScripts\DbStatistics_DN.sql
+		..\DatabaseScripts\DbTableStatics_DN.sql = ..\DatabaseScripts\DbTableStatics_DN.sql
+		..\DatabaseScripts\EnableAgentXPS.sql = ..\DatabaseScripts\EnableAgentXPS.sql
+		..\DatabaseScripts\EPi-QuerySocialCountBy_Sections.sql = ..\DatabaseScripts\EPi-QuerySocialCountBy_Sections.sql
+		..\DatabaseScripts\EPi_Active_SqlUser.sql = ..\DatabaseScripts\EPi_Active_SqlUser.sql
+		..\DatabaseScripts\EPi_EmptyRecycleBin.sql = ..\DatabaseScripts\EPi_EmptyRecycleBin.sql
+		..\DatabaseScripts\EPi_PageData_TreeStructure.sql = ..\DatabaseScripts\EPi_PageData_TreeStructure.sql
+		..\DatabaseScripts\EPi_QueryPageByPropertyValue.sql = ..\DatabaseScripts\EPi_QueryPageByPropertyValue.sql
+		..\Knowledge\Shrink_Mssql_log.sql = ..\Knowledge\Shrink_Mssql_log.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
