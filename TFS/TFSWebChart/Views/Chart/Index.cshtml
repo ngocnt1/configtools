@@ -1,0 +1,152 @@
+﻿@model IEnumerable<WorkItem>
+@using TFS.Library.Tfs;
+@{
+    ViewBag.Title = "Chart - Team Foundation Server Tool";
+}
+@section scripts{
+    <script type="text/javascript">
+        try {
+            $('#from').datepicker({ dateFormat: 'dd/mm/yy' });
+            $('#to').datepicker({ dateFormat: 'dd/mm/yy' });
+        } catch (e) {
+
+        }
+        try {
+            $('#from').on("change",
+                function () {
+                    $.cookie('from', $(this).val(), { expires: 7 });
+                });
+            $('#to').on("change",
+           function () {
+               $.cookie('to', $(this).val(), { expires: 7 });
+           });
+            $('#from').val($.cookie('from'));
+            $('#to').val($.cookie('to'));
+        } catch (e) {
+
+        }
+
+        try {
+            $('#queryLabel').text($('#queries option:selected').text());
+        } catch (e) {
+
+        }
+
+    </script>
+}
+@if (Model == null || !Model.Any())
+{
+    <div class="bs-callout bs-callout-danger">
+        <h4>No work items</h4>
+        <p>Please choose your settings and view report.</p>
+    </div>
+}
+else
+{
+    <h2>@(Request.Cookies["Project"] == null ? "" : Request.Cookies["Project"].Value)</h2>
+    if (Request.Cookies["Query"] != null)
+    {
+        <p id="queryLabel"></p>
+    }
+
+    //items[0].Revisions.Cast<Revision>().Where(x=>x.WorkItem.ChangedDate
+    var from = Request.Cookies["from"];
+    var to = Request.Cookies["to"];
+    if (from != null && to != null)
+    {
+        DateTime fDate = DateTime.ParseExact(HttpUtility.UrlDecode(from.Value), "dd/MM/yyyy", null);
+        DateTime tDate = DateTime.ParseExact(HttpUtility.UrlDecode(to.Value), "dd/MM/yyyy", null);
+        var date = fDate; 
+        double lastRemaining = 0;
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load("visualization", "1", { packages: ["corechart"] });
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                ['Date', 'Effort', 'Remaining'],
+                    @while (date<=tDate)
+                    {
+	                     try
+                         {
+		                      double totalRemaining = 0;
+                              double totalPoints = 0;
+                            
+	                          foreach(var workItem in Model.Cast<WorkItem>())
+	                          {
+                                  try
+                                  {
+                                      var revs =workItem.Revisions.Cast<Revision>();
+                                      var rev = revs.LastOrDefault(t =>{
+                                          var d = (DateTime)t.Fields["System.ChangedDate"].Value;
+                                          return d.Year == date.Year
+                                                              && d.Month == date.Month
+                                                              && d.Day == date.Day;
+                                      }
+                                                             );
+
+                                      if (rev != null)
+                                      {
+                                          totalRemaining += (double)rev.WorkItem.RemainingWork();
+                                          lastRemaining = totalRemaining;
+                                          totalPoints += (double)rev.WorkItem.Effort();
+                                      }
+                                      else
+                                      {
+                                          var lastItem = revs.Last(x => (DateTime)x.Fields["System.ChangedDate"].Value <= date).WorkItem;
+                                        //  totalRemaining += (double)lastItem.RemainingWork();
+                                          totalPoints += (double)lastItem.Effort();
+                                      }
+                                  }
+                                  catch (Exception)
+                                  {
+                                      ;
+                                  }
+	                          }
+		                    <text>
+                            ['@date.ToString("dd.MM")',  @totalPoints.ToString().Replace(',','.'), @((totalRemaining<=0?lastRemaining:totalRemaining).ToString().Replace(',', '.'))],
+                             </text>
+	                    }
+	                    finally
+	                    {
+                            date = date.AddDays(1);
+	                    }
+		            }
+                ]);
+
+                var options = {
+                    title: 'Burndown | @Model.Count() item(s)'
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
+        </script>
+        <div id="chart_div" style="width: 100%; height: 400px;"></div>
+
+
+    }
+}
+
+<h2>Settings</h2>
+<div class="input-group">
+    <span class="input-group-addon">Project:</span>
+    @{Html.RenderAction("TfsProjectsBox", "TfsHome");}
+</div>
+<br />
+<div class="input-group">
+    <span class="input-group-addon">Query:</span>
+    @{Html.RenderAction("TfsQueriesBox", "TfsHome");}
+</div>
+<br />
+<div class="input-group">
+    <span class="input-group-addon">From:</span>
+    @Html.TextBox("from")
+</div>
+<br />
+<div class="input-group">
+    <span class="input-group-addon">To:</span>
+    @Html.TextBox("to")
+</div>
+<br />
+<input type="button" value="Ok" class="btn btn-has-loader" onclick="window.location.reload();" /><img class="loader" src="/images/ajax-loader.gif" alt="Loading ..." />

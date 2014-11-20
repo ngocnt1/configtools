@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WorkItem>
+@{
+    ViewBag.Title = "Chart - Team Foundation Server Tool";
+}
+@section scripts{
+
+    <script type="text/javascript">
+        try {
+            $('#from').datepicker();
+            $('#to').datepicker();
+        } catch (e) {
+
+        }
+    </script>
+
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="bs-callout bs-callout-danger">
+        <h4>No work items</h4>
+        <p>Please choose your settings and view report.</p>
+    </div>
+}
+else
+{
+    //items[0].Revisions.Cast<Revision>().Where(x=>x.WorkItem.ChangedDate
+}
+
+<h2>Settings</h2>
+<div class="input-group">
+    <span class="input-group-addon">Project:</span>
+    @{Html.RenderAction("TfsProjectsBox", "TfsHome");}
+</div>
+<div class="input-group">
+    <span class="input-group-addon">Query:</span>
+    @{Html.RenderAction("TfsQueriesBox", "TfsHome");}
+</div>
+<div class="input-group">
+    <span class="input-group-addon">From:</span>
+    @{Html.TextBox("from");}
+</div>
+<div class="input-group">
+    <span class="input-group-addon">To:</span>
+    @{Html.TextBox("to");}
+</div>

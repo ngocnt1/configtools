@@ -1,0 +1,2 @@
+﻿@model IEnumerable<TeamProjectQuery>           
+@Html.DropDownList("queries", new SelectList(Model, "Id", "Title", Request.Cookies["query"] != null ? Request.Cookies["query"].Value : null), new { @class = "form-control" })
