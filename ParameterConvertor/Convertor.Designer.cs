@@ -63,6 +63,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.filePS = new ConfigSync.Para.FilePicker();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.folderSource = new ConfigSync.Para.FolderPicker();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.txtPrivateParameters = new System.Windows.Forms.TextBox();
@@ -75,7 +76,7 @@
             this.filePickerParameter = new ConfigSync.Para.FilePicker();
             this.folderTestConfig = new ConfigSync.Para.FolderPicker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.folderSource = new ConfigSync.Para.FolderPicker();
+            this.lbResolving = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -462,6 +463,17 @@
             this.tabPage3.Text = "Parameters Editor";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // folderSource
+            // 
+            this.folderSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.folderSource.FolderPath = "";
+            this.folderSource.Label = "Source Folder";
+            this.folderSource.Location = new System.Drawing.Point(57, 44);
+            this.folderSource.Name = "folderSource";
+            this.folderSource.Size = new System.Drawing.Size(677, 21);
+            this.folderSource.TabIndex = 1;
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -524,6 +536,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.lbResolving);
             this.tabPage4.Controls.Add(this.txtOutput);
             this.tabPage4.Controls.Add(this.btnResolveConfig);
             this.tabPage4.Controls.Add(this.filePickerParameter);
@@ -538,9 +551,11 @@
             // 
             // txtOutput
             // 
+            this.txtOutput.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txtOutput.Location = new System.Drawing.Point(85, 180);
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtOutput.Size = new System.Drawing.Size(650, 515);
             this.txtOutput.TabIndex = 8;
@@ -581,16 +596,15 @@
             this.openFileDialog1.Filter = "Parameter File|*.xml";
             this.openFileDialog1.Multiselect = true;
             // 
-            // folderSource
+            // lbResolving
             // 
-            this.folderSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.folderSource.FolderPath = "";
-            this.folderSource.Label = "Source Folder";
-            this.folderSource.Location = new System.Drawing.Point(57, 44);
-            this.folderSource.Name = "folderSource";
-            this.folderSource.Size = new System.Drawing.Size(677, 21);
-            this.folderSource.TabIndex = 1;
+            this.lbResolving.AutoSize = true;
+            this.lbResolving.Location = new System.Drawing.Point(85, 160);
+            this.lbResolving.Name = "lbResolving";
+            this.lbResolving.Size = new System.Drawing.Size(66, 13);
+            this.lbResolving.TabIndex = 9;
+            this.lbResolving.Text = "Resolving ...";
+            this.lbResolving.Visible = false;
             // 
             // Convertor
             // 
@@ -601,6 +615,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Convertor";
             this.Text = "Parameter Convertor";
+            this.Load += new System.EventHandler(this.Convertor_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -666,6 +681,7 @@
         private System.Windows.Forms.Button btnResolveConfig;
         private System.Windows.Forms.TextBox txtOutput;
         private ConfigSync.Para.FolderPicker folderSource;
+        private System.Windows.Forms.Label lbResolving;
     }
 }
 

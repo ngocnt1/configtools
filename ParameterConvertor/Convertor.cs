@@ -10,6 +10,8 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ParameterConvertor
 {
@@ -671,7 +673,7 @@ namespace ParameterConvertor
 
         void GenPrivateConfigsParameter(ref XmlElement outRootParam)
         {
-           
+
 
 
         }
@@ -818,25 +820,57 @@ namespace ParameterConvertor
 
         #endregion
 
-        private void btnResolveConfig_Click(object sender, EventArgs e)
+        private bool _resolving;
+
+        public bool Resolving
         {
-            // Start the child process.
-            Process p = new Process();
-            // Redirect the output stream of the child process.
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = "msdeploy";
-            p.StartInfo.Arguments = string.Format("-verb:sync -source:contentPath={0} -dest:contentPath={1} -setParamFile={2}",
-                folderTestConfig.FolderPath,
-                folderTestConfig.FolderPath,
-                filePickerParameter.FilePath);
-            p.Start();
-            // Do not wait for the child process to exit before
-            // reading to the end of its redirected stream.
-            // p.WaitForExit();
-            // Read the output stream first and then wait.
-            txtOutput.Text = string.Format("[{0:HH.mm.ss}] {1} {2}", DateTime.Now, Environment.NewLine, p.StandardOutput.ReadToEnd());
-            p.WaitForExit();
+            get { return _resolving; }
+            set
+            {
+                _resolving = value;
+                btnResolveConfig.Visible = !value;
+                lbResolving.Visible = value;
+            }
+        }
+
+
+        private async void btnResolveConfig_Click(object sender, EventArgs e)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                Resolving = true;
+                // Start the child process.
+                try
+                {
+                    Process p = new Process();
+                    // Redirect the output stream of the child process.
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.FileName = "msdeploy";
+                    p.StartInfo.Arguments = string.Format("-verb:sync -source:contentPath={0} -dest:contentPath={1} -setParamFile={2}",
+                        folderTestConfig.FolderPath,
+                        folderTestConfig.FolderPath,
+                        filePickerParameter.FilePath);
+                    p.StartInfo.CreateNoWindow = true;
+                    p.Start();
+                    // Do not wait for the child process to exit before
+                    // reading to the end of its redirected stream.
+                    // p.WaitForExit();
+                    // Read the output stream first and then wait.
+                    txtOutput.Text = string.Format("[{0:HH.mm.ss}] {1} {2}", DateTime.Now, Environment.NewLine, p.StandardOutput.ReadToEnd());
+                    p.WaitForExit();
+                }
+                finally
+                {
+                    Resolving = false;
+                }
+            });
+
+        }
+
+        private void Convertor_Load(object sender, EventArgs e)
+        {
+            this.Text = ProductName + " " + ProductVersion;
         }
 
     }
