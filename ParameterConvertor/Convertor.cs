@@ -736,7 +736,7 @@ namespace ParameterConvertor
                 if (vpp.Attributes["physicalPath"] != null)
                 {
                     CreateParameter(ref outRootParam
-                            , string.Format("EPiServer vpp settings: {0}", _attname)
+                            , string.Format("EPiServer vpp settings: {0}", vpp.Attributes["name"].Value)
                             , "VPP_" + vpp.Attributes["name"].Value
                             , vpp.Attributes["physicalPath"].Value
                             , "EPiServer.config$"
