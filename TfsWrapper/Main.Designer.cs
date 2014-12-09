@@ -44,7 +44,7 @@
             this.folderTarget = new ConfigSync.Para.FolderPicker();
             this.folderSrc = new ConfigSync.Para.FolderPicker();
             this.rdoVs2010 = new System.Windows.Forms.RadioButton();
-            this.vs2012 = new System.Windows.Forms.RadioButton();
+            this.rdoVs2012 = new System.Windows.Forms.RadioButton();
             this.rdoVs2013 = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
@@ -53,6 +53,7 @@
             this.fileTarget = new ConfigSync.Para.FilePicker();
             this.fileSrc = new ConfigSync.Para.FilePicker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.rdoVs2015 = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             this.txtTF.Location = new System.Drawing.Point(128, 31);
             this.txtTF.Name = "txtTF";
+            this.txtTF.ReadOnly = true;
             this.txtTF.Size = new System.Drawing.Size(456, 20);
             this.txtTF.TabIndex = 1;
             this.txtTF.Text = "c:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\TF.exe";
@@ -166,9 +168,6 @@
             // 
             this.tabPage1.Controls.Add(this.folderTarget);
             this.tabPage1.Controls.Add(this.folderSrc);
-            this.tabPage1.Controls.Add(this.rdoVs2010);
-            this.tabPage1.Controls.Add(this.vs2012);
-            this.tabPage1.Controls.Add(this.rdoVs2013);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txtTF);
             this.tabPage1.Controls.Add(this.btnCompare);
@@ -204,7 +203,7 @@
             // rdoVs2010
             // 
             this.rdoVs2010.AutoSize = true;
-            this.rdoVs2010.Location = new System.Drawing.Point(280, 7);
+            this.rdoVs2010.Location = new System.Drawing.Point(519, 27);
             this.rdoVs2010.Name = "rdoVs2010";
             this.rdoVs2010.Size = new System.Drawing.Size(64, 17);
             this.rdoVs2010.TabIndex = 9;
@@ -213,30 +212,30 @@
             this.rdoVs2010.UseVisualStyleBackColor = true;
             this.rdoVs2010.CheckedChanged += new System.EventHandler(this.vsCheckedChanged);
             // 
-            // vs2012
+            // rdoVs2012
             // 
-            this.vs2012.AutoSize = true;
-            this.vs2012.Location = new System.Drawing.Point(210, 7);
-            this.vs2012.Name = "vs2012";
-            this.vs2012.Size = new System.Drawing.Size(64, 17);
-            this.vs2012.TabIndex = 9;
-            this.vs2012.Tag = "c:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\TF.exe";
-            this.vs2012.Text = "Vs 2012";
-            this.vs2012.UseVisualStyleBackColor = true;
-            this.vs2012.CheckedChanged += new System.EventHandler(this.vsCheckedChanged);
+            this.rdoVs2012.AutoSize = true;
+            this.rdoVs2012.Location = new System.Drawing.Point(449, 27);
+            this.rdoVs2012.Name = "rdoVs2012";
+            this.rdoVs2012.Size = new System.Drawing.Size(64, 17);
+            this.rdoVs2012.TabIndex = 9;
+            this.rdoVs2012.Tag = "c:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\TF.exe";
+            this.rdoVs2012.Text = "Vs 2012";
+            this.rdoVs2012.UseVisualStyleBackColor = true;
+            this.rdoVs2012.CheckedChanged += new System.EventHandler(this.vsCheckedChanged);
             // 
             // rdoVs2013
             // 
             this.rdoVs2013.AutoSize = true;
             this.rdoVs2013.Checked = true;
-            this.rdoVs2013.Location = new System.Drawing.Point(128, 7);
+            this.rdoVs2013.Location = new System.Drawing.Point(367, 27);
             this.rdoVs2013.Name = "rdoVs2013";
             this.rdoVs2013.Size = new System.Drawing.Size(64, 17);
             this.rdoVs2013.TabIndex = 9;
             this.rdoVs2013.TabStop = true;
             this.rdoVs2013.Tag = "c:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\TF.exe";
             this.rdoVs2013.Text = "Vs 2013";
-            this.rdoVs2013.UseVisualStyleBackColor = true;
+            this.rdoVs2013.UseVisualStyleBackColor = false;
             this.rdoVs2013.CheckedChanged += new System.EventHandler(this.vsCheckedChanged);
             // 
             // tabPage2
@@ -267,6 +266,7 @@
             // 
             this.txtVS.Location = new System.Drawing.Point(100, 13);
             this.txtVS.Name = "txtVS";
+            this.txtVS.ReadOnly = true;
             this.txtVS.Size = new System.Drawing.Size(456, 20);
             this.txtVS.TabIndex = 3;
             this.txtVS.Text = "c:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe";
@@ -305,13 +305,31 @@
             // 
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.rdoVs2010);
             this.panel1.Controls.Add(this.txtPwd);
+            this.panel1.Controls.Add(this.rdoVs2012);
+            this.panel1.Controls.Add(this.rdoVs2015);
             this.panel1.Controls.Add(this.txtUser);
+            this.panel1.Controls.Add(this.rdoVs2013);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(629, 59);
             this.panel1.TabIndex = 13;
+            // 
+            // rdoVs2015
+            // 
+            this.rdoVs2015.AutoSize = true;
+            this.rdoVs2015.Checked = true;
+            this.rdoVs2015.Location = new System.Drawing.Point(288, 27);
+            this.rdoVs2015.Name = "rdoVs2015";
+            this.rdoVs2015.Size = new System.Drawing.Size(64, 17);
+            this.rdoVs2015.TabIndex = 9;
+            this.rdoVs2015.TabStop = true;
+            this.rdoVs2015.Tag = "c:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\TF.exe";
+            this.rdoVs2015.Text = "Vs 2015";
+            this.rdoVs2015.UseVisualStyleBackColor = true;
+            this.rdoVs2015.CheckedChanged += new System.EventHandler(this.vsCheckedChanged);
             // 
             // Main
             // 
@@ -359,9 +377,10 @@
         private System.Windows.Forms.TextBox txtVS;
         private System.Windows.Forms.RadioButton rdoVs2013;
         private System.Windows.Forms.RadioButton rdoVs2010;
-        private System.Windows.Forms.RadioButton vs2012;
+        private System.Windows.Forms.RadioButton rdoVs2012;
         private ConfigSync.Para.FolderPicker folderTarget;
         private ConfigSync.Para.FolderPicker folderSrc;
+        private System.Windows.Forms.RadioButton rdoVs2015;
     }
 }
 

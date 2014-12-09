@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TfsWrapper
 {
@@ -23,7 +24,15 @@ namespace TfsWrapper
 
             try
             {
-                vsCheckedChanged(rdoVs2013, null);
+                foreach (var rdo in new RadioButton[] { rdoVs2015, rdoVs2013, rdoVs2012, rdoVs2010 })
+                {
+                    if (rdo.Visible = File.Exists((string)rdo.Tag))
+                    {
+                        vsCheckedChanged(rdo, null);
+                        break;
+                    }
+                }
+
                 fileSrc.SavePath();
                 fileTarget.SavePath();
                 folderSrc.SavePath();
