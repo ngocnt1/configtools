@@ -96,14 +96,33 @@ namespace Di.Plugins.Plugins
                     );
 
                 var statusText = string.Format(
-                    @"
-<br/>{0} - pages found. {1}
-<br/>Total: <span class='label label-info'>{2}/{3}</span> (generated/saved) friendly urls. <br/>Number of errors: <span class='label label-danger'>{4}</span>",
+                    @"<table class='table table-condensed'>
+<tr>
+  <td>Pages found</td>
+  <td>{0}</td>
+</tr>
+<tr>  
+  <td colspan='2'>{1}</td>
+</tr>
+<tr>
+  <td>Total: </td>
+  <td><span class='label label-primary'>{2} / {3}</span> (generated/saved) friendly urls.</td>
+</tr>
+<tr>
+  <td>Number of errors:</td>
+  <td><span class='label label-danger'>{4}</span></td>
+</tr>
+<tr>
+  <td></td>
+  <td>{5}</td>
+</tr>
+</table>",
                     statusInfo.AllPagesCount,
                     statusInfo.IsWorking ? batchInfo : string.Empty,
                     statusInfo.AllGeneratedFurlCount,
                     statusInfo.AllSavedFurlCount,
-                    statusInfo.Errors == null ? 0 : statusInfo.Errors.Count());
+                    statusInfo.Errors == null ? 0 : statusInfo.Errors.Count(),
+                    statusInfo.Error);
 
                 ltFriendlyUrlStatus.Text = statusText;
             }

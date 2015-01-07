@@ -52,17 +52,24 @@
     </Reference>
     <Reference Include="EPiServer, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.BaseLibrary, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.BaseLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.BaseLibrary.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Configuration, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.Configuration.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Framework, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL" />
+    <Reference Include="EPiServer.Data, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Framework, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.UI, Version=6.1.379.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.UI.dll</HintPath>
