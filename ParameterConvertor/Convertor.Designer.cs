@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Convertor));
             this.btnConvert = new System.Windows.Forms.Button();
             this.txtFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -71,12 +72,12 @@
             this.btnGenAppSettingsConfig = new System.Windows.Forms.Button();
             this.folderPicker1 = new ConfigSync.Para.FolderPicker();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.lbResolving = new System.Windows.Forms.Label();
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.btnResolveConfig = new System.Windows.Forms.Button();
             this.filePickerParameter = new ConfigSync.Para.FilePicker();
             this.folderTestConfig = new ConfigSync.Para.FolderPicker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.lbResolving = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -549,6 +550,16 @@
             this.tabPage4.Text = "Test";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // lbResolving
+            // 
+            this.lbResolving.AutoSize = true;
+            this.lbResolving.Location = new System.Drawing.Point(85, 160);
+            this.lbResolving.Name = "lbResolving";
+            this.lbResolving.Size = new System.Drawing.Size(66, 13);
+            this.lbResolving.TabIndex = 9;
+            this.lbResolving.Text = "Resolving ...";
+            this.lbResolving.Visible = false;
+            // 
             // txtOutput
             // 
             this.txtOutput.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -596,16 +607,6 @@
             this.openFileDialog1.Filter = "Parameter File|*.xml";
             this.openFileDialog1.Multiselect = true;
             // 
-            // lbResolving
-            // 
-            this.lbResolving.AutoSize = true;
-            this.lbResolving.Location = new System.Drawing.Point(85, 160);
-            this.lbResolving.Name = "lbResolving";
-            this.lbResolving.Size = new System.Drawing.Size(66, 13);
-            this.lbResolving.TabIndex = 9;
-            this.lbResolving.Text = "Resolving ...";
-            this.lbResolving.Visible = false;
-            // 
             // Convertor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -613,6 +614,7 @@
             this.ClientSize = new System.Drawing.Size(837, 763);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Convertor";
             this.Text = "Parameter Convertor";
             this.Load += new System.EventHandler(this.Convertor_Load);

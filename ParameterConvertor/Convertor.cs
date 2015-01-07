@@ -642,11 +642,18 @@ namespace ParameterConvertor
             foreach (var item in serviceModel.ChildNodes.OfType<XmlElement>().Where(x => x.Name == "endpoint"))
             {
                 CreateParameter(ref outRootParam
+              , string.Format("WebConfig system.serviceModel remove: {0}", item.Attributes["name"].Value)
+              , "WebConfig_serviceModel_remove_enpoint_" + item.Attributes["name"].Value
+              , ""
+              , "Web.config$"
+              , string.Format("/configuration/system.serviceModel/client/endpoint[@name='{0}']", item.Attributes["name"].Value));
+
+                CreateParameter(ref outRootParam
                 , string.Format("WebConfig system.serviceModel set: {0}", item.Attributes["name"].Value)
                 , "WebConfig_serviceModel_enpoint_" + item.Attributes["name"].Value
-                , item.Attributes["address"].Value
+                , item.OuterXml
                 , "Web.config$"
-                , string.Format("/configuration/system.serviceModel/client/endpoint[@name='{0}']/@address", item.Attributes["name"].Value));
+                , "/configuration/system.serviceModel/client");
             }
 
             var services = doc.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(x => x.Name == "system.serviceModel")
