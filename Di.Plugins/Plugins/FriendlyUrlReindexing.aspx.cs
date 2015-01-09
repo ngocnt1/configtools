@@ -57,7 +57,7 @@ namespace Di.Plugins.Plugins
                 iprPageRoot.PageLink = PageReference.RootPage;
                 txbBatchSize.Text = SolrConfigurationManager.Instance.BatchSize.ToString();
 
-     
+
 
                 FillDDLRegenerationType();
             }
@@ -99,7 +99,7 @@ namespace Di.Plugins.Plugins
                     @"<table class='table table-condensed'>
 <tr>
   <td>Pages found</td>
-  <td>{0}</td>
+  <td><span class='label'>{0}</span></td>
 </tr>
 <tr>  
   <td colspan='2'>{1}</td>
@@ -134,6 +134,10 @@ namespace Di.Plugins.Plugins
             SolrCoreStatus status = Indexer.Instance.GetStatus();
             lblStatus.Text = status.Status.ToString();
             lblIndexedPages.Text = status.NumDocs.ToString();
+            Timer1.Enabled = isWorking;
+            lblStatus.CssClass = lblStatus.Text == "OK" ? "label label-success" : "label label-danger";
+            ltlReindexStatus.CssClass = isWorking ? "label label-warning" : "label label-success";
+            lblIndexedPages.CssClass = isWorking ? "label label-primary" : "label label-default";
 
             var siteId = Settings.Instance.Parent.SiteId;
             var siteKey = string.Format("{0}/{1}", SolrConfigurationManager.Instance.IndexId, string.IsNullOrEmpty(siteId) ? "*" : siteId);
@@ -152,7 +156,7 @@ namespace Di.Plugins.Plugins
         /// </summary>
         private void ToggleActionButtonsState()
         {
-            btnReindex.Enabled = !isWorking;
+            btnReindex.Visible = !isWorking;
             btnRefresh.Visible = isWorking;
             btnStop.Visible = isWorking;
 
@@ -220,8 +224,8 @@ namespace Di.Plugins.Plugins
         /// <returns></returns>
         private FriendlyUrlBatchGeneratorSettings ReadSettings()
         {
-            
-          //  var siteContext = ServiceLocator.Current.Resolve<ISiteContext>();
+
+            //  var siteContext = ServiceLocator.Current.Resolve<ISiteContext>();
             var settings = new FriendlyUrlBatchGeneratorSettings();
             settings.ActionType = FriendlyUrlBatchActionType.Clear;
             settings.BatchSize = GetBatchSize();
@@ -365,14 +369,19 @@ namespace Di.Plugins.Plugins
 
         void RegisterRefreshScript()
         {
-            if (isWorking && !Page.ClientScript.IsClientScriptBlockRegistered("RandomQuoteCallback"))
-            {
-                string clientScript = "function refresh(){document.getElementById('" + btnRefresh.ClientID + "').click();} $(document).ready(function(){ window.setTimeout('refresh()',3000);});";
-                // Register the client script
-                Page.ClientScript.RegisterClientScriptBlock(this.GetType(),
-                "RandomQuoteCallback", clientScript, true);
-            }
-        } 
+            //if (isWorking && !Page.ClientScript.IsClientScriptBlockRegistered("RandomQuoteCallback"))
+            //{
+            //    string clientScript = "function refresh(){document.getElementById('" + btnRefresh.ClientID + "').click();} $(document).ready(function(){ window.setTimeout('refresh()',3000);});";
+            //    // Register the client script
+            //    Page.ClientScript.RegisterClientScriptBlock(this.GetType(),
+            //    "RandomQuoteCallback", clientScript, true);
+            //}
+        }
         #endregion
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            SetObjectsCount();
+        }
     }
 }

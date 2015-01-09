@@ -151,8 +151,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy /s /y "$(TargetPath)" "C:\Projects\Bonnier\TFSBink\DI\Main\Di\Bonnier.Di.Web\bin\"
+xcopy /s /y "$(ProjectDir)Plugins\*.as?x" "C:\Projects\Bonnier\TFSBink\DI\Main\Di\Bonnier.Di.Web\Plugins\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
