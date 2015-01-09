@@ -26,24 +26,20 @@
         <div style="padding: 15px">
             <h3>FriendlyUrl Reindexing</h3>
             <hr />
-            <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
+            <%-- <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
                 <ProgressTemplate>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                            <span class="sr-only">Processing...</span>
-                        </div>
-                    </div>
                 </ProgressTemplate>
-            </asp:UpdateProgress>
+            </asp:UpdateProgress>--%>
+
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnRefresh" />
-                    <asp:PostBackTrigger ControlID="btnReindex" />
-                    <asp:PostBackTrigger ControlID="btnStop" />
+                    <asp:AsyncPostBackTrigger ControlID="btnReindex" />
+                    <asp:AsyncPostBackTrigger ControlID="btnStop" />
                 </Triggers>
                 <ContentTemplate>
                     <asp:Label ID="lbWarning" runat="server" Text="" CssClass="alert alert-block alert-error" Visible="false"></asp:Label>
-                    <div class="panel panel-default">
+                    <asp:Panel runat="server" ID="panelStatus" CssClass="panel panel-default">
                         <div class="panel-heading">Status</div>
                         <div class="panel-body">
                             <table class="table table-bordered">
@@ -83,10 +79,20 @@
                                     <td>
                                         <asp:Literal runat="server" ID="ltFriendlyUrlStatus"></asp:Literal></td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <asp:Panel runat="server" ID="progressingBar" CssClass="progress" Visible="false" style="width:200px">
+                                            <asp:Panel runat="server" ID="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" Style="width: 0%">
+                                                <asp:Label runat="server" ID="progressingLabel" CssClass="sr-only">0%</asp:Label>
+                                            </asp:Panel>
+                                        </asp:Panel>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
+                    </asp:Panel>
+                    <asp:Panel runat="server" ID="panelSettings" CssClass="panel panel-default">
                         <div class="panel-heading">Settings</div>
                         <div class="panel-body">
                             <table class="table table-bordered">
@@ -142,7 +148,7 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
+                    </asp:Panel>
                     <asp:Timer ID="Timer1" runat="server" OnTick="Timer1_Tick" Interval="3000">
                     </asp:Timer>
                 </ContentTemplate>

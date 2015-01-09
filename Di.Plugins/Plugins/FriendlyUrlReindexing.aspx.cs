@@ -88,7 +88,7 @@ namespace Di.Plugins.Plugins
                     : Math.Ceiling(statusInfo.AllPagesCount / (decimal)statusInfo.BatchSize).ToString();
 
                 var batchInfo = string.Format(
-                    "<br/>Current batch # <span class='label label-success'>{0}</span> of  <span class='label label-info'>{3}</span> has {1} page(s) for which {2} furls generated. ",
+                    "<br/>Current batch # <span class='label label-success'>{0}</span> of {3} has {1} page(s) for which <span class='label label-info'>{2}</span> furls generated.",
                     statusInfo.BatchNumber,
                     statusInfo.BatchPagesCount,
                     statusInfo.GeneratedFurlInBatchCount,
@@ -98,22 +98,18 @@ namespace Di.Plugins.Plugins
                 var statusText = string.Format(
                     @"<table class='table table-condensed'>
 <tr>
-  <td>Pages found</td>
-  <td><span class='label'>{0}</span></td>
+  <td>Pages found <span class='label'>{0}</span></td>
 </tr>
 <tr>  
-  <td colspan='2'>{1}</td>
+  <td>{1}</td>
 </tr>
 <tr>
-  <td>Total: </td>
-  <td><span class='label label-primary'>{2} / {3}</span> (generated/saved) friendly urls.</td>
+  <td>Total: <span class='label label-default'>{2} / {3}</span> (generated/saved) friendly urls.</td>
 </tr>
 <tr>
-  <td>Number of errors:</td>
-  <td><span class='label label-danger'>{4}</span></td>
+  <td>Number of errors: <span class='label label-danger'>{4}</span></td>
 </tr>
 <tr>
-  <td></td>
   <td>{5}</td>
 </tr>
 </table>",
@@ -124,11 +120,29 @@ namespace Di.Plugins.Plugins
                     statusInfo.Errors == null ? 0 : statusInfo.Errors.Count(),
                     statusInfo.Error);
 
+
+                double d1 = statusInfo.BatchNumber;
+                double d2;
+                if (double.TryParse(batchCount, out d2))
+                {
+                    SetProgress((int)(d1 * 100 / d2));
+                }
+                else
+                {
+                    SetProgress(0);
+                }
+
                 ltFriendlyUrlStatus.Text = statusText;
             }
         }
-
-        #region Common
+        void SetProgress(int value)
+        {
+            int v = value > 100 ? 100 : value < 0 ? 0 : value;
+            progress.Attributes["aria-valuenow"] = v.ToString();
+            progress.Attributes["style"] = string.Format("width: {0}%", v);
+            progressingLabel.Text = string.Format("{0}%", v);
+        }
+        #region Common ...
         private void SetObjectsCount()
         {
             SolrCoreStatus status = Indexer.Instance.GetStatus();
@@ -137,7 +151,11 @@ namespace Di.Plugins.Plugins
             Timer1.Enabled = isWorking;
             lblStatus.CssClass = lblStatus.Text == "OK" ? "label label-success" : "label label-danger";
             ltlReindexStatus.CssClass = isWorking ? "label label-warning" : "label label-success";
-            lblIndexedPages.CssClass = isWorking ? "label label-primary" : "label label-default";
+            lblIndexedPages.CssClass = isWorking ? "label label-primary" : "label label-info";
+
+            panelSettings.CssClass = isWorking ? "panel panel-primary" : "panel panel-info";
+            panelStatus.CssClass = isWorking ? "panel panel-primary" : "panel panel-info";
+            progressingBar.Visible = isWorking;
 
             var siteId = Settings.Instance.Parent.SiteId;
             var siteKey = string.Format("{0}/{1}", SolrConfigurationManager.Instance.IndexId, string.IsNullOrEmpty(siteId) ? "*" : siteId);
@@ -177,7 +195,7 @@ namespace Di.Plugins.Plugins
 
         #endregion
 
-        #region Processing
+        #region Processing ...
         /// <summary>
         /// 
         /// </summary>
@@ -344,7 +362,7 @@ namespace Di.Plugins.Plugins
                 settings.ActionType = FriendlyUrlBatchActionType.Regenerate;
 
                 ThreadPool.QueueUserWorkItem(ThreadProc, settings);
-                RegisterRefreshScript();
+                SetObjectsCount();
             }
         }
 
@@ -369,13 +387,7 @@ namespace Di.Plugins.Plugins
 
         void RegisterRefreshScript()
         {
-            //if (isWorking && !Page.ClientScript.IsClientScriptBlockRegistered("RandomQuoteCallback"))
-            //{
-            //    string clientScript = "function refresh(){document.getElementById('" + btnRefresh.ClientID + "').click();} $(document).ready(function(){ window.setTimeout('refresh()',3000);});";
-            //    // Register the client script
-            //    Page.ClientScript.RegisterClientScriptBlock(this.GetType(),
-            //    "RandomQuoteCallback", clientScript, true);
-            //}
+            SetObjectsCount();
         }
         #endregion
 
