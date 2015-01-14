@@ -16,7 +16,7 @@ using System.Web.Configuration;
 namespace Di.Plugins.Plugins
 {
     [GuiPlugIn(DisplayName = "FriendlyUrl Find", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlPlugin.aspx")]
-    public partial class FriendlyUrlPlugin : SystemPageBase
+    public partial class FriendlyUrlPlugin : PluginBase
     {
 
         void ShowError(string msg)
@@ -36,23 +36,6 @@ namespace Di.Plugins.Plugins
             var url = new UrlBuilder(pd.LinkURL);
             Global.UrlRewriteProvider.ConvertToExternal(url, pd.PageLink, Encoding.UTF8);
             return txtDomain.Text + url.ToString();
-        }
-
-        public override EPiServer.Security.AccessLevel RequiredAccess()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return EPiServer.Security.AccessLevel.FullAccess;
-            }
-            return EPiServer.Security.AccessLevel.NoAccess;
-        }
-
-        protected void CheckPermission(string securityCode)
-        {
-            if (string.Compare(WebConfigurationManager.AppSettings["SecurityCode"], securityCode, true) != 0)
-            {
-                throw new Exception("Please input correct security code.");
-            }
         }
 
         protected void btnGenLinks_Click(object sender, EventArgs e)

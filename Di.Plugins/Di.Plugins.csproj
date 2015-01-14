@@ -41,11 +41,23 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\Autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Bonnier.Advertisement">
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\TFSBink\DI\Main\.Libraries\Platform\Advertisement\bin\Bonnier.Advertisement.dll</HintPath>
+    </Reference>
     <Reference Include="Bonnier.Core.Common">
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\Platform\Core\Bonnier.Core.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Bonnier.Core.PageTypes">
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\TFSBink\DI\Main\.Libraries\Platform\Core\Bonnier.Core.PageTypes.dll</HintPath>
+    </Reference>
     <Reference Include="Bonnier.Core.Querying">
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\Platform\Querying\bin\Bonnier.Core.Querying.dll</HintPath>
+    </Reference>
+    <Reference Include="Bonnier.Di.Infrastructure">
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\TFSBink\DI\Main\Di\Bonnier.Di.Infrastructure\bin\Debug\Bonnier.Di.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Bonnier.Di.PageTypes">
+      <HintPath>..\..\..\..\..\..\Projects\Bonnier\TFSBink\DI\Main\Di\Bonnier.Di.PageTypes\bin\Debug\Bonnier.Di.PageTypes.dll</HintPath>
     </Reference>
     <Reference Include="Bonnier.UrlRewriting">
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\Platform\UrlRewriting\bin\Bonnier.UrlRewriting.dll</HintPath>
@@ -75,6 +87,10 @@
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\EPiServer\EPiServer.UI.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Web.WebControls, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Projects\DI\.Libraries\EPiServer\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PageTypeBuilder">
       <HintPath>..\..\..\..\DI20\Development branches\ContentNAV\.Libraries\PageTypeBuilder\PageTypeBuilder.dll</HintPath>
@@ -99,6 +115,7 @@
   <ItemGroup>
     <Content Include="Plugins\FriendlyUrlPlugin.aspx" />
     <Content Include="Plugins\FriendlyUrlReindexing.aspx" />
+    <Content Include="Plugins\PagesRemovingTool.aspx" />
     <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -121,6 +138,16 @@
     </Compile>
     <Compile Include="Plugins\FriendlyUrlReindexing.aspx.designer.cs">
       <DependentUpon>FriendlyUrlReindexing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Plugins\PagesRemovingTool.aspx.cs">
+      <DependentUpon>PagesRemovingTool.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Plugins\PagesRemovingTool.aspx.designer.cs">
+      <DependentUpon>PagesRemovingTool.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Plugins\PluginBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

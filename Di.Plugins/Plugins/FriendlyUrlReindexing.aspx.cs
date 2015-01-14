@@ -25,7 +25,7 @@ using EPiServer.UI;
 namespace Di.Plugins.Plugins
 {
     [GuiPlugIn(DisplayName = "FriendlyUrl Reindexing", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlReindexing.aspx")]
-    public partial class FriendlyUrlReindexing : SystemPageBase
+    public partial class FriendlyUrlReindexing : PluginBase
     {
         private static bool isWorking;
 
