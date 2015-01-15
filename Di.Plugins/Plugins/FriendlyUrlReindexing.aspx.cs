@@ -24,7 +24,7 @@ using EPiServer.UI;
 
 namespace Di.Plugins.Plugins
 {
-    [GuiPlugIn(DisplayName = "FriendlyUrl Reindexing", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlReindexing.aspx")]
+    [GuiPlugIn(DisplayName = "[Admin] FriendlyUrl Reindexing", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlReindexing.aspx", SortIndex = 1)]
     public partial class FriendlyUrlReindexing : PluginBase
     {
         private static bool isWorking;
@@ -153,8 +153,8 @@ namespace Di.Plugins.Plugins
             ltlReindexStatus.CssClass = isWorking ? "label label-warning" : "label label-success";
             lblIndexedPages.CssClass = isWorking ? "label label-primary" : "label label-info";
 
-            panelSettings.CssClass = isWorking ? "panel panel-primary" : "panel panel-info";
-            panelStatus.CssClass = isWorking ? "panel panel-primary" : "panel panel-info";
+            panelSettings.CssClass = isWorking ? "panel panel-primary" : "panel  panel-default";
+            panelStatus.CssClass = isWorking ? "panel panel-primary" : "panel  panel-default";
             progressingBar.Visible = isWorking;
 
             var siteId = Settings.Instance.Parent.SiteId;

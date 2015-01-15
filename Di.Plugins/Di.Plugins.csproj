@@ -116,6 +116,7 @@
     <Content Include="Plugins\FriendlyUrlPlugin.aspx" />
     <Content Include="Plugins\FriendlyUrlReindexing.aspx" />
     <Content Include="Plugins\PagesRemovingTool.aspx" />
+    <Content Include="Plugins\SolrReindexing.aspx" />
     <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -148,6 +149,13 @@
     </Compile>
     <Compile Include="Plugins\PluginBase.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Plugins\SolrReindexing.aspx.cs">
+      <DependentUpon>SolrReindexing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Plugins\SolrReindexing.aspx.designer.cs">
+      <DependentUpon>SolrReindexing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

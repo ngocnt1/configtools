@@ -15,7 +15,7 @@ using System.Web.Configuration;
 
 namespace Di.Plugins.Plugins
 {
-    [GuiPlugIn(DisplayName = "FriendlyUrl Find", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlPlugin.aspx")]
+    [GuiPlugIn(DisplayName = "[Admin] FriendlyUrl Find", Description = "", Area = PlugInArea.AdminMenu, Url = "~/Plugins/FriendlyUrlPlugin.aspx", SortIndex=2)]
     public partial class FriendlyUrlPlugin : PluginBase
     {
 
