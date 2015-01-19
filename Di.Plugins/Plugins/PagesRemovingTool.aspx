@@ -109,6 +109,8 @@
                 </div>
             </div>--%>
                     <asp:Panel ID="pnlMaxNumber" runat="server" class="form-group">
+                        <label for="txtMaxItemToDelete">Max threads</label>
+                        <asp:TextBox ID="txtThreads" runat="server" CssClass="form-control" Text="20" Style="width: 200px"></asp:TextBox>
                         <label for="txtMaxItemToDelete">Max number of items to delete</label>
                         <asp:TextBox ID="txtMaxItemToDelete" runat="server" CssClass="form-control" Text="100" Style="width: 200px"></asp:TextBox>
                     </asp:Panel>

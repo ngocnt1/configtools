@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerScriptAgent.Entities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace PowerScriptAgent
         static CPUMonitor _instance;
 
         PerformanceCounter theCPUCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        Queue<BaseItem> queues = new Queue<BaseItem>();
 
         public CPUMonitor()
         {
@@ -28,6 +30,8 @@ namespace PowerScriptAgent
                 return _instance ?? (_instance = new CPUMonitor());
             }
         }
+
+        public Queue<BaseItem> Queues { get { return queues; } }
 
         public float Usage { get; private set; }
 
@@ -50,13 +54,19 @@ namespace PowerScriptAgent
                         //    cpuUsageChart.Series[0].Points.RemoveAt(0);
 
 
-                       // Usage = 0.00F;
+                        // Usage = 0.00F;
 
                         theCPUCounter.NextValue();
                         System.Threading.Thread.Sleep(1000);
 
-                       // Thread.Sleep(450);//Thread sleep for 450 milliseconds 
+                        // Thread.Sleep(450);//Thread sleep for 450 milliseconds 
                         Usage = theCPUCounter.NextValue();
+                        if (queues.Count > 600)
+                        {
+                            queues.Dequeue();
+                        }
+
+                        queues.Enqueue(new CPU() { Value = Usage });
                     }
                 }
                 catch (Exception)

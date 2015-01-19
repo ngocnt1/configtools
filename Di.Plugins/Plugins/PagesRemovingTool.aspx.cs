@@ -90,7 +90,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         {
             get
             {
-                return Articles.Count - ProcessedCount;
+                return Articles.Count;
             }
         }
 
@@ -271,6 +271,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
 
                  }
                  //return 1 / sw.Elapsed.TotalSeconds;
+                 ProcessedCount += 1;
                  return 1;
              });
 
@@ -432,7 +433,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
                     }
                     try
                     {
-                        PagePerSec += await DeletePage(new PageReference(Articles.Pop()));
+                       await DeletePage(new PageReference(Articles.Pop()));
                     }
                     catch (Exception ex)
                     {
@@ -604,9 +605,11 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
                 watch.Start();
                 //ProcessedSectionsCount = 0;
                 //(null);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
+                for (int i = 0; i < int.Parse(txtThreads.Text); i++)
+                {
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
+                }
+                
                 UpdateUI();
 
                 this.RegisterRefreshScript();

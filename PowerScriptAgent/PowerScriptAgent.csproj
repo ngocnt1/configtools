@@ -92,6 +92,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CPUMonitor.cs" />
+    <Compile Include="Entities\BaseItem.cs" />
+    <Compile Include="Entities\CPU.cs" />
     <Compile Include="HMACAuthenticationAttribute.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

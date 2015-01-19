@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Diagnostics;
+using PowerScriptAgent.Entities;
+using Newtonsoft.Json;
 
 namespace PowerScriptAgent
 {
@@ -23,18 +25,20 @@ namespace PowerScriptAgent
         //{
         //    return new string[] { "value1", "value2" };
         //}
+       
 
-        public IEnumerable<string> Get()
+        public string Get()
         {
-
-
+           
             //float cpuUsage = 0.00F;
 
             //theCPUCounter.NextValue();
             //System.Threading.Thread.Sleep(1000);
             //cpuUsage = theCPUCounter.NextValue();
 
-            return new string[] { "CPU:" + CPUMonitor.Instance.Usage, "RAM:" + theMemCounter.NextValue() };
+           // return new string[] { "CPU:" + CPUMonitor.Instance.Usage, "RAM:" + theMemCounter.NextValue() };
+
+            return JsonConvert.SerializeObject(CPUMonitor.Instance.Queues.Select(x => x).ToList());
         }
 
         // GET api/values/5 
