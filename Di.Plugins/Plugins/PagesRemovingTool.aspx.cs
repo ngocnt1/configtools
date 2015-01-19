@@ -21,6 +21,7 @@ using EPiServer.UI;
 using Di.Plugins.Plugins;
 using log4net;
 using Bonnier.Di.PageTypes;
+using System.Threading.Tasks;
 
 namespace DagensNyheter.Plugins.RemoveSlaskContent
 {
@@ -32,11 +33,12 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
     public partial class PagesRemovingTool : PluginBase
     {
         static bool IsProcessing;
-        static int ProcessedCount = 0;
-        static int ProcessedSectionsCount = 0;
+        static volatile int ProcessedCount = 0;
+        //static int ProcessedSectionsCount = 0;
         static double PagePerSec = 0;
         static int MaxNumberToDelete = 0;
-        static List<int> Articles = new List<int>();
+        static volatile Stack<int> Articles = new Stack<int>();
+        static Stopwatch watch = new Stopwatch();
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
@@ -58,6 +60,16 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
             int totalItemsCount = TotalArticlesCount;
             pnlMaxNumber.Visible = !IsProcessing && totalItemsCount > 0;
             Timer1.Enabled = IsProcessing;
+            if (IsProcessing)
+            {
+                double a = ProcessedCount;
+                double b = watch.Elapsed.TotalSeconds;
+                PagePerSec = b > 0 ? a / b : 0;
+            }
+            else
+            {
+                watch.Stop();
+            }
             //PlaceHolderRefreshScript.Visible = IsProcessing;
             btnLoad.Visible = !IsProcessing;
             //pnl.Visible = !IsProcessing;
@@ -66,9 +78,9 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
             btnRefresh.Visible = IsProcessing;
             pnlProgress.Visible = IsProcessing;
             lbSpeed.Visible = IsProcessing;
-            lbSpeed.Text = string.Format("Performance: {0:N1} pages/s", PagePerSec);
+            lbSpeed.Text = string.Format("Performance: {0:N1} pages/s, Deleted: {1:N0} page(s)", PagePerSec, ProcessedCount);
             lbRemainingArticles.Text = string.Format("{0}", totalItemsCount);
-          // lbRemainingSections.Text = string.Format("{0}", Articles.Count);
+            // lbRemainingSections.Text = string.Format("{0}", Articles.Count);
 
             //rpt.DataSource = Articles;
             //rpt.DataBind();
@@ -128,10 +140,15 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
                           .Where(x => x.Created)
                           .IsLesserOrEqual(DateTime.Now.AddYears(-1))
                           .UnCachedPageReferencesResult()
-                          .Select(t=>t.ID);
+                          .Select(t => t.ID);
             Articles.Clear();
             ProcessedCount = 0;
-            Articles.AddRange(items);
+
+            foreach (var id in items)
+            {
+                Articles.Push(id);
+            }
+
 
             //foreach (var child in DataFactory.Instance.GetDescendents(pref))
             //{
@@ -194,7 +211,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         {
             get
             {
-                double a = ProcessedCount + ProcessedSectionsCount;
+                double a = ProcessedCount;
                 double b = MaxNumberToDelete;// TotalItemsCount;
                 b = b == 0 ? 1 : b;
                 var r = (int)Math.Round(a * 100 / b, 0);
@@ -212,44 +229,51 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         /// 
         /// </summary>
         /// <param name="pageId"></param>
-        private void DeletePage(PageReference pageId)
+        private async Task<int> DeletePage(PageReference pageId)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            try
-            {
-                //try
-                //{
-                var page = DataFactory.Instance.GetPage(pageId);// as WebTvArticlePageData;
+            return await Task.Run(() =>
+             {
+                 //Stopwatch sw = new Stopwatch();
+                 //sw.Start();
+                 try
+                 {
+                     //try
+                     //{
+                     var page = DataFactory.Instance.GetPage(pageId);// as WebTvArticlePageData;
 
-                if (page == null)
-                {
-                    return;
-                }
+                     if (page == null)
+                     {
+                         return 0;
+                     }
 
-                //var publishedVersions = PageVersion.ListPublishedVersions(pageId);
-                //if (publishedVersions == null || publishedVersions.Count == 0)
-                //{
-                //var dir = page.GetPageDirectory(false);
-                //if (dir != null)
-                //{
-                //    DeleteFolderRecursiveLy(dir);
-                //    log.InfoFormat("Deleted VPP dir {3} for page [{0}] {1}, {2}.", page.PageTypeName, page.PageName, pageId, dir);
-                //}
-              //  Articles.Remove(pageId.ID);
-                DataFactory.Instance.Delete(pageId, true, AccessLevel.NoAccess);
 
-                log.InfoFormat("Deleted page [{0}] {1}, {2}.", page.PageTypeName, page.PageName, pageId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                sw.Stop();
-                PagePerSec = 1 / sw.Elapsed.TotalSeconds;
-            }
+                     //var publishedVersions = PageVersion.ListPublishedVersions(pageId);
+                     //if (publishedVersions == null || publishedVersions.Count == 0)
+                     //{
+                     //var dir = page.GetPageDirectory(false);
+                     //if (dir != null)
+                     //{
+                     //    DeleteFolderRecursiveLy(dir);
+                     //    log.InfoFormat("Deleted VPP dir {3} for page [{0}] {1}, {2}.", page.PageTypeName, page.PageName, pageId, dir);
+                     //}
+                     //  Articles.Remove(pageId.ID);
+                     DataFactory.Instance.Delete(pageId, true, AccessLevel.NoAccess);
+
+                     log.InfoFormat("Deleted page [{0}] {1}, {2}.", page.PageTypeName, page.PageName, pageId);
+                 }
+                 catch (Exception ex)
+                 {
+                     throw ex;
+                 }
+                 finally
+                 {
+                     // sw.Stop();
+
+                 }
+                 //return 1 / sw.Elapsed.TotalSeconds;
+                 return 1;
+             });
+
             //}
             //catch (Exception ex)
             //{
@@ -388,7 +412,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         {
             get
             {
-                return MaxNumberToDelete > ProcessedCount + ProcessedSectionsCount && IsProcessing;
+                return MaxNumberToDelete > ProcessedCount && IsProcessing;
             }
         }
 
@@ -396,11 +420,11 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         /// 
         /// </summary>
         /// <param name="o"></param>
-        void ProcessingThread(object o)
+        async void ProcessingThread(object o)
         {
             try
             {
-                foreach (var item in Articles)
+                while (Articles.Count > 0)
                 {
                     if (!CanDelete)
                     {
@@ -408,8 +432,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
                     }
                     try
                     {
-                        DeletePage(new PageReference(item));
-                        ProcessedCount += 1;                      
+                        PagePerSec += await DeletePage(new PageReference(Articles.Pop()));
                     }
                     catch (Exception ex)
                     {
@@ -577,7 +600,12 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
                 //Sections = Sections;
                 IsProcessing = true;
                 ProcessedCount = 0;
-                ProcessedSectionsCount = 0;
+                watch.Reset();
+                watch.Start();
+                //ProcessedSectionsCount = 0;
+                //(null);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessingThread), null);
                 UpdateUI();
 
@@ -600,7 +628,7 @@ namespace DagensNyheter.Plugins.RemoveSlaskContent
         {
             if (!IsProcessing)
             {
-                ShowMessage(string.Format("Deleted {0} article(s) and {1} section(s)", ProcessedCount, ProcessedSectionsCount));
+                //ShowMessage(string.Format("Deleted {0} article(s) and {1} section(s)", ProcessedCount, ProcessedSectionsCount));
             }
             UpdateUI();
         }

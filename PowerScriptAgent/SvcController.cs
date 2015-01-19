@@ -8,22 +8,39 @@ using System.Management.Automation.Runspaces;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Diagnostics;
 
 namespace PowerScriptAgent
 {
+    //[HMACAuthentication]
     public class SvcController : ApiController
     {
         ILog log = LogManager.GetLogger("LOG");
+      //  PerformanceCounter theCPUCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        PerformanceCounter theMemCounter = new PerformanceCounter("Memory", "Available MBytes");
         // GET api/values 
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
+
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+
+
+            //float cpuUsage = 0.00F;
+
+            //theCPUCounter.NextValue();
+            //System.Threading.Thread.Sleep(1000);
+            //cpuUsage = theCPUCounter.NextValue();
+
+            return new string[] { "CPU:" + CPUMonitor.Instance.Usage, "RAM:" + theMemCounter.NextValue() };
         }
 
         // GET api/values/5 
         public string Get(string id)
         {
-            return  RunScript(id);
+            return RunScript(id);
         }
 
         private string RunScript(string scriptText)
@@ -42,25 +59,25 @@ namespace PowerScriptAgent
 
                 Pipeline pipeline = runspace.CreatePipeline();
 
-//                pipeline.Commands.AddScript(@"
-//function Get-ComputerStats($ServerName) { 
-//
-//  process {
-//        $avg = Get-WmiObject win32_processor -computername $ServerName | 
-//                   Measure-Object -property LoadPercentage -Average | 
-//                   Foreach {$_.Average}
-//        $mem = Get-WmiObject win32_operatingsystem -ComputerName $ServerName |
-//                   Foreach {""{0:N2}"" -f ((($_.TotalVisibleMemorySize - $_.FreePhysicalMemory)*100)/ $_.TotalVisibleMemorySize)}
-//        $free = Get-WmiObject Win32_Volume -ComputerName $ServerName -Filter ""DriveLetter = 'C:'"" |
-//                    Foreach {""{0:N2}"" -f (($_.FreeSpace / $_.Capacity)*100)}
-//					
-//					Write-Host ""CPU usage: $avg %"" -ForegroundColor Green
-//					Write-Host ""Memory usage: $mem %"" -ForegroundColor Green
-//					Write-Host ""OS Disk free: $free %"" -ForegroundColor Green    
-//  }
-//}
-//
-//");
+                //                pipeline.Commands.AddScript(@"
+                //function Get-ComputerStats($ServerName) { 
+                //
+                //  process {
+                //        $avg = Get-WmiObject win32_processor -computername $ServerName | 
+                //                   Measure-Object -property LoadPercentage -Average | 
+                //                   Foreach {$_.Average}
+                //        $mem = Get-WmiObject win32_operatingsystem -ComputerName $ServerName |
+                //                   Foreach {""{0:N2}"" -f ((($_.TotalVisibleMemorySize - $_.FreePhysicalMemory)*100)/ $_.TotalVisibleMemorySize)}
+                //        $free = Get-WmiObject Win32_Volume -ComputerName $ServerName -Filter ""DriveLetter = 'C:'"" |
+                //                    Foreach {""{0:N2}"" -f (($_.FreeSpace / $_.Capacity)*100)}
+                //					
+                //					Write-Host ""CPU usage: $avg %"" -ForegroundColor Green
+                //					Write-Host ""Memory usage: $mem %"" -ForegroundColor Green
+                //					Write-Host ""OS Disk free: $free %"" -ForegroundColor Green    
+                //  }
+                //}
+                //
+                //");
                 pipeline.Commands.AddScript(scriptText);
 
                 // add an extra command to transform the script
@@ -113,5 +130,5 @@ namespace PowerScriptAgent
         public void Delete(int id)
         {
         }
-    } 
+    }
 }

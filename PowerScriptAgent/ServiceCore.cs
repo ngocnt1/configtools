@@ -30,6 +30,8 @@ namespace PowerScriptAgent
         {
             try
             {
+                CPUMonitor.Instance.Start();
+
                 log.Info("On Start: http://localhost:9096");
                 //log.Info(RunScript(@"""ABC"" | Out-File -FilePath Date.txt"));
                 // string baseAddress = "http://localhost:9000/";
@@ -68,7 +70,9 @@ namespace PowerScriptAgent
         protected override void OnStop()
         {
             app.Dispose();
+            CPUMonitor.Instance.Stop();
             log.Info("On Stop");
+            base.OnStop();
         }
     }
 }
