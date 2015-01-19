@@ -41,6 +41,26 @@ namespace PowerScriptAgent
                 // create a pipeline and feed it the script text
 
                 Pipeline pipeline = runspace.CreatePipeline();
+
+//                pipeline.Commands.AddScript(@"
+//function Get-ComputerStats($ServerName) { 
+//
+//  process {
+//        $avg = Get-WmiObject win32_processor -computername $ServerName | 
+//                   Measure-Object -property LoadPercentage -Average | 
+//                   Foreach {$_.Average}
+//        $mem = Get-WmiObject win32_operatingsystem -ComputerName $ServerName |
+//                   Foreach {""{0:N2}"" -f ((($_.TotalVisibleMemorySize - $_.FreePhysicalMemory)*100)/ $_.TotalVisibleMemorySize)}
+//        $free = Get-WmiObject Win32_Volume -ComputerName $ServerName -Filter ""DriveLetter = 'C:'"" |
+//                    Foreach {""{0:N2}"" -f (($_.FreeSpace / $_.Capacity)*100)}
+//					
+//					Write-Host ""CPU usage: $avg %"" -ForegroundColor Green
+//					Write-Host ""Memory usage: $mem %"" -ForegroundColor Green
+//					Write-Host ""OS Disk free: $free %"" -ForegroundColor Green    
+//  }
+//}
+//
+//");
                 pipeline.Commands.AddScript(scriptText);
 
                 // add an extra command to transform the script

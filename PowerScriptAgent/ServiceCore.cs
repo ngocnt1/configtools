@@ -19,6 +19,7 @@ namespace PowerScriptAgent
     public partial class ServiceCore : ServiceBase
     {
         ILog log = LogManager.GetLogger("LOG");
+        IDisposable app;
         public ServiceCore()
         {
             InitializeComponent();
@@ -29,33 +30,34 @@ namespace PowerScriptAgent
         {
             try
             {
-                log.Info("On Start");
+                log.Info("On Start: http://localhost:9096");
                 //log.Info(RunScript(@"""ABC"" | Out-File -FilePath Date.txt"));
                 // string baseAddress = "http://localhost:9000/";
 
                 StartOptions options = new StartOptions();
-                options.Urls.Add("http://localhost:9095");
-                options.Urls.Add("http://127.0.0.1:9095");
-                options.Urls.Add(string.Format("http://{0}:9095", Environment.MachineName));
+                options.Urls.Add("http://localhost:9096");
+                options.Urls.Add("http://127.0.0.1:9096");
+                options.Urls.Add(string.Format("http://{0}:9096", Environment.MachineName));
 
                 // Start OWIN host 
-                using (WebApp.Start<SvcStartup>(options))
+                app = WebApp.Start<SvcStartup>(options);
+                //using ()
+                //{
+                // Create HttpCient and make a request to api/values 
+                HttpClient client = new HttpClient();
+
+                var response = client.GetAsync("http://127.0.0.1:9096/" + "api/svc/GET-SERVICE").Result;
+
+                log.Info(response);
+
+                string res = response.Content.ReadAsStringAsync().Result;
+
+                foreach (var l in res.Split('\n'))
                 {
-                    // Create HttpCient and make a request to api/values 
-                    HttpClient client = new HttpClient();
-
-                    var response = client.GetAsync("http://127.0.0.1:9095/" + "api/svc/GET-SERVICE").Result;
-
-                    log.Info(response);
-
-                    string res = response.Content.ReadAsStringAsync().Result;
-
-                    foreach (var l in res.Split('\n'))
-                    {
-                        log.Info(l);
-                    }
-
+                    log.Info(l);
                 }
+
+                //}
             }
             catch (Exception ex)
             {
@@ -65,6 +67,7 @@ namespace PowerScriptAgent
 
         protected override void OnStop()
         {
+            app.Dispose();
             log.Info("On Stop");
         }
     }
