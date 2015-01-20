@@ -21,14 +21,14 @@ namespace PowerScriptAgent.Entities
         void GenID(DateTime date)
         {
             //YYYYMMDDhhmmss
-            ID = date.Year * 10000000000 +
+            TimeTick = date.Year * 10000000000 +
                 date.Month * 1000000 + 
                 date.Day *   10000 +
                 date.Minute* 100 + 
                 date.Second;
         }
 
-        public virtual long ID
+        public virtual long TimeTick
         {
             get;
             private set;

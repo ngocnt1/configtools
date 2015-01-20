@@ -23,8 +23,7 @@ namespace PowerScriptAgent
         {
             var docStore = new DocumentStore
             {
-                Url = "http://localhost:8080",
-                DefaultDatabase = "WebApiSample"
+                Url = "http://localhost:8083"
             };
 
             docStore.Initialize();

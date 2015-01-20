@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace PowerScriptAgent
 {
     //[HMACAuthentication]
-    public class SvcController : ApiController
+    public class SvcController : RavenDbController
     {
         ILog log = LogManager.GetLogger("LOG");
       //  PerformanceCounter theCPUCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
@@ -38,7 +38,7 @@ namespace PowerScriptAgent
 
            // return new string[] { "CPU:" + CPUMonitor.Instance.Usage, "RAM:" + theMemCounter.NextValue() };
 
-            return JsonConvert.SerializeObject(CPUMonitor.Instance.Queues.Select(x => x).ToList());
+            return JsonConvert.SerializeObject(RavenDbConfig.Store.OpenSession(RavenDbConfig.TableDeploymentDB).Query<CPU>().Where(x => x.TimeTick > 20150001203018).ToList());
         }
 
         // GET api/values/5 

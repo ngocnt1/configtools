@@ -11,16 +11,28 @@ namespace PowerScriptAgent
 {
     class CPUMonitor
     {
+        Timer timer;
         private volatile bool IsStoped;
 
         static CPUMonitor _instance;
 
         PerformanceCounter theCPUCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        Queue<BaseItem> queues = new Queue<BaseItem>();
+        // Queue<BaseItem> queues = new Queue<BaseItem>();
 
         public CPUMonitor()
         {
+            timer = new Timer(TimerTick, null, 0, 15000);
 
+        }
+
+        private void TimerTick(object state)
+        {
+            if (!IsStoped)
+            {
+                  var session = RavenDbConfig.Store.OpenSession(RavenDbConfig.TableDeploymentDB);
+                        session.Store(new CPU() { Value = Usage });
+                        session.SaveChanges();
+            }
         }
 
         public static CPUMonitor Instance
@@ -31,7 +43,7 @@ namespace PowerScriptAgent
             }
         }
 
-        public Queue<BaseItem> Queues { get { return queues; } }
+        //public Queue<BaseItem> Queues { get { return queues; } }
 
         public float Usage { get; private set; }
 
@@ -61,12 +73,12 @@ namespace PowerScriptAgent
 
                         // Thread.Sleep(450);//Thread sleep for 450 milliseconds 
                         Usage = theCPUCounter.NextValue();
-                        if (queues.Count > 600)
-                        {
-                            queues.Dequeue();
-                        }
-
-                        queues.Enqueue(new CPU() { Value = Usage });
+                        //if (queues.Count > 600)
+                        //{
+                        //    queues.Dequeue();
+                        //}
+                      
+                        // queues.Enqueue(new CPU() { Value = Usage });
                     }
                 }
                 catch (Exception)
