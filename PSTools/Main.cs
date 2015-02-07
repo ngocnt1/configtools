@@ -44,15 +44,21 @@ namespace PSTools
                     btnRunTCPPing.Enabled = false;
                     Process process = CreateRunningProcess();
                     process.StartInfo.FileName = Path.Combine(Application.StartupPath, @"Pstools\psping.exe");
-                    process.StartInfo.Arguments = string.Format(" {0} {1}",
+                    process.StartInfo.Arguments = string.Format(
+                        " {0} {1} {2}",
                         cbIPv.SelectedIndex == 0 ? "-4" : "-6",
-                        txtDes.Text);
+                        txtDes.Text,
+                        cbHistogram.Checked ? "-" + numHistogram.Value : "");
+
                     process.Start();
 
-                    string res = string.Format("============{0}========={1}Arguments: {2}{1}{3}{1}", 
-                        DateTime.Now, Environment.NewLine, process.StartInfo.Arguments,
+                    string res = string.Format("============{0}========={1}Arguments: {2}{1}{3}{1}",
+                        DateTime.Now, Environment.NewLine,
+                        process.StartInfo.Arguments,
                         process.StandardOutput.ReadToEnd());
+                   
                     process.WaitForExit();
+
                     return res;
                 }
                 finally

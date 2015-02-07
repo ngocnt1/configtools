@@ -41,11 +41,14 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtTCPPingResult = new System.Windows.Forms.TextBox();
             this.btnRunTCPPing = new System.Windows.Forms.Button();
+            this.cbHistogram = new System.Windows.Forms.CheckBox();
+            this.numHistogram = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPsPing.SuspendLayout();
             this.tabUsages.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHistogram)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -60,6 +63,8 @@
             // 
             // tabPsPing
             // 
+            this.tabPsPing.Controls.Add(this.numHistogram);
+            this.tabPsPing.Controls.Add(this.cbHistogram);
             this.tabPsPing.Controls.Add(this.cbIPv);
             this.tabPsPing.Controls.Add(this.tabUsages);
             this.tabPsPing.Controls.Add(this.txtDes);
@@ -182,13 +187,41 @@
             // 
             // btnRunTCPPing
             // 
-            this.btnRunTCPPing.Location = new System.Drawing.Point(24, 30);
+            this.btnRunTCPPing.Location = new System.Drawing.Point(119, 19);
             this.btnRunTCPPing.Name = "btnRunTCPPing";
             this.btnRunTCPPing.Size = new System.Drawing.Size(75, 23);
             this.btnRunTCPPing.TabIndex = 0;
             this.btnRunTCPPing.Text = "Run";
             this.btnRunTCPPing.UseVisualStyleBackColor = true;
             this.btnRunTCPPing.Click += new System.EventHandler(this.btnRunTCPPing_Click);
+            // 
+            // cbHistogram
+            // 
+            this.cbHistogram.AutoSize = true;
+            this.cbHistogram.Location = new System.Drawing.Point(119, 72);
+            this.cbHistogram.Name = "cbHistogram";
+            this.cbHistogram.Size = new System.Drawing.Size(95, 17);
+            this.cbHistogram.TabIndex = 1;
+            this.cbHistogram.Text = "Print histogram";
+            this.cbHistogram.UseVisualStyleBackColor = true;
+            // 
+            // numHistogram
+            // 
+            this.numHistogram.Enabled = false;
+            this.numHistogram.Location = new System.Drawing.Point(222, 71);
+            this.numHistogram.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numHistogram.Name = "numHistogram";
+            this.numHistogram.Size = new System.Drawing.Size(52, 20);
+            this.numHistogram.TabIndex = 2;
+            this.numHistogram.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             // 
             // Main
             // 
@@ -206,6 +239,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numHistogram)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -225,6 +259,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtTCPPingResult;
         private System.Windows.Forms.Button btnRunTCPPing;
+        private System.Windows.Forms.CheckBox cbHistogram;
+        private System.Windows.Forms.NumericUpDown numHistogram;
     }
 }
 
