@@ -145,12 +145,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>installutil /u "$(TargetPath)"
-installutil /i "$(TargetPath)"
-net start PowerScriptAgent</PostBuildEvent>
+    <PostBuildEvent>rem installutil /u "$(TargetPath)"
+rem installutil /i "$(TargetPath)"
+rem net start PowerScriptAgent</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>net stop PowerScriptAgent</PreBuildEvent>
+    <PreBuildEvent>rem net stop PowerScriptAgent</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
