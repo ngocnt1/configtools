@@ -116,5 +116,29 @@ namespace TfsWrapper
             txtVS.Text = txtTF.Text = ((RadioButton)sender).Tag.ToString();
             txtVS.Text = txtVS.Text.Replace("TF.exe", "devenv.exe");
         }
+
+        /// <summary>
+        /// First
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnFileNames_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Directory.Exists(folderSrc.FolderPath) && Directory.Exists(folderTarget.FolderPath))
+                {
+                    new CompareListOfFiles(folderSrc.FolderPath, folderTarget.FolderPath).ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Not found one of directory");
+                }
+            }
+            catch (Exception)
+            {
+                ;
+            }
+        }
     }
 }

@@ -459,7 +459,10 @@ namespace ParameterConvertor
             }
         }
 
-
+        /// <summary>
+        /// Web.config
+        /// </summary>
+        /// <param name="outRootParam"></param>
         void GenWebConfigsParameter(ref XmlElement outRootParam)
         {
             //solrcore
@@ -685,7 +688,7 @@ namespace ParameterConvertor
 
         }
         /// <summary>
-        /// 
+        /// EPiServer.config
         /// </summary>
         /// <returns></returns>
         void GenEPiServerParameters(ref XmlElement outRootParam)
@@ -710,7 +713,7 @@ namespace ParameterConvertor
                     , "Site_" + _attname
                     , node.Attributes[_attname].Value
                     , "EPiServer.config$"
-                    , xpath + "/@" + _attname);
+                    , xpath + "/episerver/sites/site/@" + _attname);
 
             _attname = "siteId";
             CreateParameter(ref outRootParam
@@ -718,7 +721,7 @@ namespace ParameterConvertor
                     , "Site_" + _attname
                     , node.Attributes[_attname].Value
                     , "EPiServer.config$"
-                    , xpath + "/@" + _attname);
+                    , xpath + "/episerver/sites/site/@" + _attname);
 
             //site settings
             node = node.FirstChild;
